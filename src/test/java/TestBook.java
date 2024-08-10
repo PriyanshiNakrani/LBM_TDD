@@ -33,4 +33,19 @@ public class TestBook {
     public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenAuthorContainsOnlyNumericValue() {
         assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "1234567890", "1234567890", 2008));
     }
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenIsbnIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", null, 2008));
+    }
+
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenIsbnIsNot13Digits() {
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "123456789012", 2008));
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "12345678901234", 2008));
+    }
+
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenIsbnContainsNonNumericCharacters() {
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "1234567890ABC", 2008));
+    }
 }
