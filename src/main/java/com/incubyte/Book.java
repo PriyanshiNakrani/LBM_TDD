@@ -7,14 +7,14 @@ public class Book {
     private int publicationYear;
 
     public Book(String title, String author, String isbn, int publicationYear) {
-        validateTitleAndAuthor(title, author);
+        validateTitleAndAuthor(title, author,isbn);
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
     }
 
-    private void validateTitleAndAuthor(String title, String author) {
+    private void validateTitleAndAuthor(String title, String author,String isbn) {
         if (title == null || author == null) {
             throw new IllegalArgumentException("Title and Author cannot be null.");
         }
@@ -25,6 +25,13 @@ public class Book {
 
         if (title.matches("^[0-9]+$") || author.matches("^[0-9]+$")) {
             throw new IllegalArgumentException("Title and Author cannot contain only numeric values.");
+        }
+        if (isbn == null) {
+            throw new IllegalArgumentException("ISBN cannot be null.");
+        }
+
+        if (!isbn.matches("\\d{13}")) {
+            throw new IllegalArgumentException("ISBN must be exactly 13 digits long and contain only numeric values.");
         }
     }
 }
