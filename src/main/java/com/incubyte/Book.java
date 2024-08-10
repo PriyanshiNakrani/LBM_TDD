@@ -14,6 +14,10 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
+    public String getIsbn(){
+        return isbn;
+    }
+
     private void validateTitleAndAuthor(String title, String author,String isbn,int publicationYear) {
         if (title == null || author == null) {
             throw new IllegalArgumentException("Title and Author cannot be null.");
@@ -39,4 +43,6 @@ public class Book {
             throw new IllegalArgumentException("Publication year must be exactly 4 digits and contain only numeric values.");
         }
     }
+
+    
 }

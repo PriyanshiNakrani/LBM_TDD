@@ -1,6 +1,8 @@
 // package com.incubyte;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,4 +54,47 @@ public class TestLibrary {
 
         assertThrows(IllegalArgumentException.class, () -> library.addBook(null, null));
     }
+    @Test
+    public void testAddBookUniqueAndHandleDuplicates() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.addBook(user, book);
+        assertEquals(1, library.getBooks().size());
+        assertTrue(library.getBooks().containsKey(book.getIsbn()));
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.addBook(user, book);
+        });
+
+        assertEquals("Book with this ISBN already exists.", thrown.getMessage());
+        assertEquals(1, library.getDuplicateBookCounter()); 
+
+        assertEquals(1, library.getBooks().size());
+    }
+    @Test
+    public void testAddNullBook() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Alice", 1);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.addBook(user, null);
+        });
+
+        assertEquals("Book cannot be null.", thrown.getMessage());
+    }
+
+    @Test
+    public void testAddNullUser() {
+        Library library = new Library("PriyaLibrary");
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.addBook(null, book);
+        });
+
+        assertEquals("User cannot be null.", thrown.getMessage());
+    }
+
 }

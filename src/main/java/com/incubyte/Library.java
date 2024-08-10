@@ -1,11 +1,18 @@
 package com.incubyte;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Library {
     private String libName;
+    private Map<String, Book> books;
+    private int duplicateBookCounter;
 
     public Library(String libName) {
         validateLibName(libName);
         this.libName = libName;
+        this.books = new HashMap<>();
+        this.duplicateBookCounter = 0;
     }
 
     private void validateLibName(String libName) {
@@ -26,20 +33,6 @@ public class Library {
         }
     }
 
-    public void addBook(User user, Book book) {
-        validateUser(user);
-        validateBook(book);
-    }
 
-    private void validateUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null.");
-        }
-    }
-
-    private void validateBook(Book book) {
-        if (book == null) {
-            throw new IllegalArgumentException("Book cannot be null.");
-        }
-    }
+    
 }
