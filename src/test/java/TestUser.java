@@ -25,4 +25,9 @@ public class TestUser {
     public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenUserNameStartsWithNumericValue() {
         assertThrows(IllegalArgumentException.class, () -> new User("1John", 12345));
     }
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenUserIdStartsWithAlphabeticValue() {
+        assertThrows(IllegalArgumentException.class, () -> new User("John", "A1235"));
+    }
+
 }
