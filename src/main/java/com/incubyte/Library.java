@@ -25,4 +25,19 @@ public class Library {
             throw new IllegalArgumentException("Library name cannot contain numeric values.");
         }
     }
+
+    public void addBook(User user, Book book) {
+        validateUser(user);
+        validateBook(book);
+    }
+
+    private void validateUser(User user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateUser'");
+    }
+
+    private void validateBook(Book book) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateBook'");
+    }
 }
