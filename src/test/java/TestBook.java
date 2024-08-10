@@ -48,4 +48,14 @@ public class TestBook {
     public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenIsbnContainsNonNumericCharacters() {
         assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "1234567890ABC", 2008));
     }
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenPublicationYearIsNot4Digits() {
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "1234567890123", 200));
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "1234567890123", 20088));
+    }
+
+    @Test
+    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenPublicationYearContainsNonNumericCharacters() {
+        assertThrows(IllegalArgumentException.class, () -> new Book("Effective Java", "Joshua Bloch", "1234567890123", Integer.parseInt("20A8")));
+    }
 }
