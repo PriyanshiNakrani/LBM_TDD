@@ -32,12 +32,14 @@ public class Library {
     }
 
     private void validateUser(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateUser'");
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null.");
+        }
     }
 
     private void validateBook(Book book) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateBook'");
+        if (book == null) {
+            throw new IllegalArgumentException("Book cannot be null.");
+        }
     }
 }
