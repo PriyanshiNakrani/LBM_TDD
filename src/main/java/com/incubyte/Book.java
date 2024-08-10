@@ -36,7 +36,7 @@ public class Book {
         String publicationYearStr = String.valueOf(publicationYear);
 
         if (!publicationYearStr.matches("\\d{4}")) {
-            throw new IllegalArgumentException("Publication year must be exactly 4 digits long and contain only numeric values.");
+            throw new IllegalArgumentException("Publication year must be exactly 4 digits and contain only numeric values.");
         }
     }
 }
