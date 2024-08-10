@@ -34,5 +34,35 @@ public class Library {
     }
 
 
-    
+    public void addBook(User user, Book book) {
+        validateUser(user);
+        validateBook(book);
+
+        if (books.containsKey(book.getIsbn())) {
+            duplicateBookCounter++;
+            throw new IllegalArgumentException("Book with this ISBN already exists.");
+        } else {
+            books.put(book.getIsbn(), book);
+        }
+    }
+
+     public Map<String, Book> getBooks() {
+        return new HashMap<>(books); 
+    }
+
+     public int getDuplicateBookCounter() {
+        return duplicateBookCounter;
+    }
+
+    private void validateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null.");
+        }
+    }
+
+    private void validateBook(Book book) {
+        if (book == null) {
+            throw new IllegalArgumentException("Book cannot be null.");
+        }
+    }
 }
