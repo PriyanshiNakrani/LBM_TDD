@@ -5,12 +5,12 @@ public class User {
     private int UserId;
 
     public User(String UserName, int UserId) {
-        validateUserName(UserName);
+        validateUserNameAndUserId(UserName, UserId);
         this.UserName = UserName;
         this.UserId = UserId;
     }
 
-    private void validateUserName(String UserName) {
+    private void validateUserNameAndUserId(String UserName,int UserId) {
         if (UserName == null) {
             throw new IllegalArgumentException("UserName cannot be null.");
         }
@@ -25,6 +25,11 @@ public class User {
 
         if (!UserName.matches("^[a-zA-Z]+$")) {
             throw new IllegalArgumentException("UserName can only contain alphabetic characters.");
+        }
+
+        // `UserId` is an `int`, it can't be null.
+        if (String.valueOf(UserId).matches("^[a-zA-Z].*")) {
+            throw new IllegalArgumentException("UserId cannot start with an alphabetic value.");
         }
     }
 }
