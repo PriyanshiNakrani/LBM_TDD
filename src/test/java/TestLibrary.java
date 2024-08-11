@@ -197,4 +197,23 @@ public class TestLibrary {
 
         assertEquals("User can only borrow up to 2 books.", thrown.getMessage());
     }
+
+    @Test
+    public void testBorrowBookWhenBookIsAlreadyBorrowed() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.registerUser(user);
+        library.addBook(user, book);
+
+        library.borrowBook(book, user);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> library.borrowBook(book, user),
+                "Expected IllegalArgumentException when attempting to borrow a book that is already borrowed by the user.");
+
+        assertEquals("Book is already borrowed by the user.", thrown.getMessage());
+    }
+
 }

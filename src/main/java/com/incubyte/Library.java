@@ -87,7 +87,7 @@ public class Library {
         if (!registeredUsers.contains(user)) {
             throw new IllegalArgumentException("User is not registered.");
         }
-        
+
         if (!bookDB.containsKey(book) || bookDB.get(book) == 0) {
             throw new IllegalArgumentException("Book is not available.");
         }
@@ -102,9 +102,7 @@ public class Library {
             throw new IllegalArgumentException("User can only borrow up to 2 books.");
         }
 
-        if (borrowedBooks.contains(book)) {
-            throw new IllegalArgumentException("Book is already borrowed by the user.");
-        }
+        
 
         bookDB.put(book, bookDB.get(book) - 1);
         borrowedBooks.add(book);
