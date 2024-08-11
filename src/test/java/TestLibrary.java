@@ -138,8 +138,8 @@ public class TestLibrary {
         library.addBook(user, book);
         library.addBook(user, book);
         List<Book> books = library.showBooks();
-        assertEquals(1, books.size(), "Expected list to contain one unique book.");
-        assertTrue(books.contains(book), "The list should contain the unique book.");
+        assertEquals(1, books.size(), "Expected list to contain one unique book");
+        assertTrue(books.contains(book), "The list should contain the unique book");
     }
 
 }
