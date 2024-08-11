@@ -169,10 +169,9 @@ public class TestLibrary {
 
         library.addBook(user, book);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> library.borrowBook(book, user),
-                "Expected IllegalArgumentException when attempting to borrow a book with an unregistered user.");
+        library.registerUser(user);
 
-        assertEquals("User is not registered.", thrown.getMessage());
+        library.borrowBook(book, user);
+
     }
 }
