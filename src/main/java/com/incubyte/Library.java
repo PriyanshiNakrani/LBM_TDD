@@ -14,6 +14,8 @@ public class Library {
     private int duplicateBookCounter;
     private Map<Book, Integer> bookDB;
     private Map<User, Set<Book>> userBooks;
+    private Set<User> registeredUsers;
+
 
     public Library(String libName) {
         validateLibName(libName);
@@ -22,6 +24,7 @@ public class Library {
         this.duplicateBookCounter = 0;
         this.bookDB = new HashMap<>();
         this.userBooks = new HashMap<>();
+        this.registeredUsers = new HashSet<>();
     }
 
     private void validateLibName(String libName) {
@@ -105,6 +108,11 @@ public class Library {
 
     public Map<Book, Integer> getBookDB() {
         return Collections.unmodifiableMap(bookDB);
+    }
+
+    public void registerUser(User user) {
+        validateUser(user);
+        registeredUsers.add(user);
     }
 
 }

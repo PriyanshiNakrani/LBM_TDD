@@ -68,7 +68,7 @@ public class TestLibrary {
         assertTrue(library.getBooks().containsKey(book.getIsbn()));
 
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(user, book); 
+            library.addBook(user, book);
         });
         assertEquals("Book with this ISBN already exists.", thrown.getMessage());
 
@@ -148,7 +148,8 @@ public class TestLibrary {
         List<Book> books = library.showBooks();
         assertEquals(2, books.size(), "Expected list to contain two unique books.");
         assertTrue(books.contains(book), "The list should contain the first added book.");
-        assertTrue(books.contains(anotherBook), "The list should contain the second added book.");    }
+        assertTrue(books.contains(anotherBook), "The list should contain the second added book.");
+    }
 
     @Test
     public void testBorrowBookWhenBookIsNotPresent() {
@@ -160,4 +161,5 @@ public class TestLibrary {
                 "Expected IllegalArgumentException when attempting to borrow a book that is not present.");
     }
 
+   
 }
