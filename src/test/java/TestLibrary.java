@@ -161,5 +161,18 @@ public class TestLibrary {
                 "Expected IllegalArgumentException when attempting to borrow a book that is not present.");
     }
 
-   
+    @Test
+    public void testBorrowBookWhenUserIsNotRegistered() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Deva", 2);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.addBook(user, book);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> library.borrowBook(book, user),
+                "Expected IllegalArgumentException when attempting to borrow a book with an unregistered user.");
+
+        assertEquals("User is not registered.", thrown.getMessage());
+    }
 }
