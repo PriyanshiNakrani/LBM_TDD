@@ -119,8 +119,40 @@ public class Library {
         registeredUsers.add(user);
     }
 
-    public void returnBook(Book book,User user){
-        
+    public void returnBook(Book book, User user) {
+        if (book == null || user == null) {
+            throw new IllegalArgumentException("Book and user cannot be null.");
+        }
+    
+        if (!registeredUsers.contains(user)) {
+            throw new IllegalArgumentException("User is not registered.");
+        }
+    
+        if (!bookDB.containsKey(book)) {
+            throw new IllegalArgumentException("Book is not in the library.");
+        }
+    
+        if (!userBooks.containsKey(user)) {
+            throw new IllegalArgumentException("Book was not borrowed by this user.");
+        }
+    
+        Set<Book> borrowedBooks = userBooks.get(user);
+    
+        if (!borrowedBooks.contains(book)) {
+            throw new IllegalArgumentException("Book was already returned by this user.");
+        }
+    
+        borrowedBooks.remove(book);
+    
+        bookDB.put(book, bookDB.get(book) + 1);
+    
+        if (borrowedBooks.isEmpty()) {
+            userBooks.remove(user);
+        }
     }
-
+    
+    
+    
+    
+    
 }
