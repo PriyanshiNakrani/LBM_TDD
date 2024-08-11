@@ -106,4 +106,40 @@ public class TestLibrary {
         assertTrue(books.isEmpty(), "Expected empty list when no books are added.");
     }
 
+    @Test
+    public void testShowBooksWithSingleBook() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+        library.addBook(user, book);
+        List<Book> books = library.showBooks();
+        assertEquals(1, books.size(), "Expected list to contain one book.");
+        assertTrue(books.contains(book), "The list should contain the added book.");
+    }
+
+    @Test
+    public void testShowBooksWithMultipleUniqueBooks() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book1 = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+        Book book2 = new Book("Clean Code", "Robert Martin", "9780132350884", 2003);
+        library.addBook(user, book1);
+        library.addBook(user, book2);
+        List<Book> books = library.showBooks();
+        assertEquals(2, books.size(), "Expected list to contain two unique books.");
+        assertTrue(books.contains(book1) && books.contains(book2), "The list should contain both added books.");
+    }
+
+    @Test
+    public void testShowBooksWithDuplicateBooks() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+        library.addBook(user, book);
+        library.addBook(user, book);
+        List<Book> books = library.showBooks();
+        assertEquals(1, books.size(), "Expected list to contain one unique book.");
+        assertTrue(books.contains(book), "The list should contain the unique book.");
+    }
+
 }
