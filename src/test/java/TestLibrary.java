@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import com.incubyte.Book;
@@ -95,6 +97,13 @@ public class TestLibrary {
         });
 
         assertEquals("User cannot be null.", thrown.getMessage());
+    }
+
+    @Test
+    public void testShowBooksWhenNoBooksAdded() {
+        Library library = new Library("PriyaLibrary");
+        List<Book> books = library.showBooks();
+        assertTrue(books.isEmpty(), "Expected empty list when no books are added.");
     }
 
 }
