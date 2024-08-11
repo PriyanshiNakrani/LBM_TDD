@@ -1,9 +1,6 @@
 // package com.incubyte;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -13,30 +10,33 @@ import com.incubyte.Book;
 import com.incubyte.Library;
 import com.incubyte.User;
 
+/**
+ * Tests for the Library class to ensure correct behavior of library operations.
+ */
 public class TestLibrary {
 
     @Test
-    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenLibNameIsNull() {
+    public void testConstructorThrowsExceptionWhenLibNameIsNull() {
         assertThrows(IllegalArgumentException.class, () -> new Library(null));
     }
 
     @Test
-    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenLibNameStartsWithNumericValue() {
+    public void testConstructorThrowsExceptionWhenLibNameStartsWithNumericValue() {
         assertThrows(IllegalArgumentException.class, () -> new Library("1PriyaLibrary"));
     }
 
     @Test
-    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenLibNameContainsNumericValues() {
+    public void testConstructorThrowsExceptionWhenLibNameContainsNumericValues() {
         assertThrows(IllegalArgumentException.class, () -> new Library("PriyaLibrary1"));
     }
 
     @Test
-    public void testThat_ConstructorMustThrowInvalidArgumentExceptionWhenLibNameIsLessThan3Characters() {
+    public void testConstructorThrowsExceptionWhenLibNameIsShort() {
         assertThrows(IllegalArgumentException.class, () -> new Library("AB"));
     }
 
     @Test
-    public void testThat_AddBookMustThrowIllegalArgumentExceptionWhenUserIsNull() {
+    public void testAddBookThrowsExceptionWhenUserIsNull() {
         Library library = new Library("PriyaLibrary");
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
 
@@ -44,7 +44,7 @@ public class TestLibrary {
     }
 
     @Test
-    public void testThat_AddBookMustThrowIllegalArgumentExceptionWhenBookIsNull() {
+    public void testAddBookThrowsExceptionWhenBookIsNull() {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
 
@@ -52,14 +52,7 @@ public class TestLibrary {
     }
 
     @Test
-    public void testThat_AddBookMustThrowIllegalArgumentExceptionWhenBothParametersAreNull() {
-        Library library = new Library("PriyaLibrary");
-
-        assertThrows(IllegalArgumentException.class, () -> library.addBook(null, null));
-    }
-
-    @Test
-    public void testAddBookUniqueAndHandleDuplicates() {
+    public void testAddBookHandlesDuplicates() {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
@@ -68,36 +61,10 @@ public class TestLibrary {
         assertEquals(1, library.getBooks().size());
         assertTrue(library.getBooks().containsKey(book.getIsbn()));
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(user, book);
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> library.addBook(user, book));
         assertEquals("Book with this ISBN already exists.", thrown.getMessage());
 
         assertEquals(2, library.getBookDB().get(book));
-    }
-
-    @Test
-    public void testAddNullBook() {
-        Library library = new Library("PriyaLibrary");
-        User user = new User("Alice", 1);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(user, null);
-        });
-
-        assertEquals("Book cannot be null.", thrown.getMessage());
-    }
-
-    @Test
-    public void testAddNullUser() {
-        Library library = new Library("PriyaLibrary");
-        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(null, book);
-        });
-
-        assertEquals("User cannot be null.", thrown.getMessage());
     }
 
     @Test
@@ -132,27 +99,6 @@ public class TestLibrary {
     }
 
     @Test
-    public void testShowBooksWithDuplicateBooks() {
-        Library library = new Library("PriyaLibrary");
-        User user = new User("Priya", 1);
-        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
-        library.addBook(user, book);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(user, book);
-        });
-        assertEquals("Book with this ISBN already exists.", thrown.getMessage());
-
-        Book anotherBook = new Book("Clean Code", "Robert Martin", "9780132350884", 2003);
-        library.addBook(user, anotherBook);
-
-        List<Book> books = library.showBooks();
-        assertEquals(2, books.size(), "Expected list to contain two unique books.");
-        assertTrue(books.contains(book), "The list should contain the first added book.");
-        assertTrue(books.contains(anotherBook), "The list should contain the second added book.");
-    }
-
-    @Test
     public void testBorrowBookWhenBookIsNotPresent() {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
@@ -169,11 +115,8 @@ public class TestLibrary {
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
 
         library.addBook(user, book);
-
-        library.registerUser(user);
-
-        library.borrowBook(book, user);
-
+        assertThrows(IllegalArgumentException.class, () -> library.borrowBook(book, user),
+                "Expected IllegalArgumentException when attempting to borrow a book with an unregistered user.");
     }
 
     @Test
@@ -226,10 +169,7 @@ public class TestLibrary {
         library.registerUser(user);
         library.addBook(user, book);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.returnBook(book, user);
-        });
-
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> library.returnBook(book, user));
         assertEquals("Book was not borrowed by this user.", thrown.getMessage());
     }
 
@@ -246,5 +186,4 @@ public class TestLibrary {
 
         assertEquals(1, library.getBookDB().get(book), "Book availability should be updated to 1 after return.");
     }
-
 }
