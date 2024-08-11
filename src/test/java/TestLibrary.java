@@ -1,6 +1,7 @@
 // package com.incubyte;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -203,18 +204,85 @@ public class TestLibrary {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
-    
+
         library.registerUser(user);
         library.addBook(user, book);
-    
-        library.borrowBook(book, user); 
-    
+
+        library.borrowBook(book, user);
+
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 () -> library.borrowBook(book, user),
                 "Expected IllegalArgumentException when attempting to borrow a book that is already borrowed by the user.");
-    
+
         assertEquals("Book is already borrowed by the user.", thrown.getMessage());
     }
-    
+
+    @Test
+    public void testReturnBookSuccessfully() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.registerUser(user);
+        library.addBook(user, book);
+        library.borrowBook(book, user);
+
+        library.returnBook(book, user);
+
+        assertEquals(1, library.getBookDB().get(book));
+        assertFalse(library.getUserBooks(user).contains(book),
+                "User's borrowed books should not contain the returned book.");
+    }
+
+    @Test
+    public void testReturnBookNotBorrowedByUser() {
+        Library library = new Library("PriyaLibrary");
+        User user1 = new User("Priya", 1);
+        User user2 = new User("Alice", 2);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.registerUser(user1);
+        library.registerUser(user2);
+        library.addBook(user1, book);
+        library.borrowBook(book, user1);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook(book, user2);
+        });
+        assertEquals("Book was not borrowed by this user.", thrown.getMessage());
+    }
+
+    @Test
+    public void testReturnBookThatWasNotBorrowed() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.registerUser(user);
+        library.addBook(user, book);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook(book, user);
+        });
+        assertEquals("Book was not borrowed.", thrown.getMessage());
+    }
+
+    @Test
+    public void testReturnBookWhenNoCopiesAvailable() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        library.registerUser(user);
+        library.addBook(user, book);
+        library.borrowBook(book, user);
+
+        library.getBookDB().put(book, 0);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook(book, user);
+        });
+        assertEquals("Cannot return a book with no copies available.", thrown.getMessage());
+    }
 
 }

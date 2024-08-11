@@ -88,35 +88,27 @@ public class Library {
             throw new IllegalArgumentException("User is not registered.");
         }
     
-        // Initialize user's borrowed books if not already
         if (!userBooks.containsKey(user)) {
             userBooks.put(user, new HashSet<>());
         }
     
         Set<Book> borrowedBooks = userBooks.get(user);
     
-        // Check if the book is already borrowed by the user
         if (borrowedBooks.contains(book)) {
             throw new IllegalArgumentException("Book is already borrowed by the user.");
         }
     
-        // Check if the book is available
         if (!bookDB.containsKey(book) || bookDB.get(book) == 0) {
             throw new IllegalArgumentException("Book is not available.");
         }
     
-        // Check if the user has reached their borrowing limit
         if (borrowedBooks.size() >= 2) {
             throw new IllegalArgumentException("User can only borrow up to 2 books.");
         }
     
-        // Proceed to borrow the book
         bookDB.put(book, bookDB.get(book) - 1);
         borrowedBooks.add(book);
     }
-    
-    
-        
 
     public Map<Book, Integer> getBookDB() {
         return Collections.unmodifiableMap(bookDB);
@@ -125,6 +117,10 @@ public class Library {
     public void registerUser(User user) {
         validateUser(user);
         registeredUsers.add(user);
+    }
+
+    public void returnBook(Book book,User user){
+        
     }
 
 }
