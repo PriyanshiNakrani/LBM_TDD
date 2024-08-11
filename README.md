@@ -94,3 +94,12 @@ The Library Management System is a Java-based application designed to handle the
 - **Unit Tests**:
   - Test Add Book
   - Test Borrow Book
+
+# Git Commands for This Project
+
+## Cloning the Repository
+
+To clone the repository to your local machine, use:
+
+```bash
+git clone https://github.com/PriyanshiNakrani/LBM_TDD.git
