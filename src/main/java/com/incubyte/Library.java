@@ -1,6 +1,9 @@
 package com.incubyte;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Library {
@@ -66,5 +69,7 @@ public class Library {
         }
     }
 
-    
+    public List<Book> showBooks() {
+        return Collections.unmodifiableList(new ArrayList<>(books.values()));
+    }
 }
