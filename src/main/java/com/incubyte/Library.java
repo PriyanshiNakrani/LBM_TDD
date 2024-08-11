@@ -3,19 +3,25 @@ package com.incubyte;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Library {
     private String libName;
     private Map<String, Book> books;
     private int duplicateBookCounter;
+    private Map<Book, Integer> bookDB;
+    private Map<User, Set<Book>> userBooks;
 
     public Library(String libName) {
         validateLibName(libName);
         this.libName = libName;
         this.books = new HashMap<>();
         this.duplicateBookCounter = 0;
+        this.bookDB = new HashMap<>();
+        this.userBooks = new HashMap<>();
     }
 
     private void validateLibName(String libName) {
@@ -36,25 +42,22 @@ public class Library {
         }
     }
 
-
     public void addBook(User user, Book book) {
         validateUser(user);
         validateBook(book);
 
-        if (books.containsKey(book.getIsbn())) {
-            duplicateBookCounter++;
+        if (bookDB.containsKey(book)) {
+            bookDB.put(book, bookDB.get(book) + 1);
             throw new IllegalArgumentException("Book with this ISBN already exists.");
+
         } else {
+            bookDB.put(book, 1);
             books.put(book.getIsbn(), book);
         }
     }
 
-     public Map<String, Book> getBooks() {
-        return new HashMap<>(books); 
-    }
-
-     public int getDuplicateBookCounter() {
-        return duplicateBookCounter;
+    public Map<String, Book> getBooks() {
+        return new HashMap<>(books);
     }
 
     private void validateUser(User user) {
@@ -72,4 +75,36 @@ public class Library {
     public List<Book> showBooks() {
         return Collections.unmodifiableList(new ArrayList<>(books.values()));
     }
+
+    public void borrowBook(Book book, User user) {
+        if (book == null || user == null) {
+            throw new IllegalArgumentException("Book and user cannot be null.");
+        }
+
+        if (!bookDB.containsKey(book) || bookDB.get(book) == 0) {
+            throw new IllegalArgumentException("Book is not available.");
+        }
+
+        if (!userBooks.containsKey(user)) {
+            userBooks.put(user, new HashSet<>());
+        }
+
+        Set<Book> borrowedBooks = userBooks.get(user);
+
+        if (borrowedBooks.size() >= 2) {
+            throw new IllegalArgumentException("User can only borrow up to 2 books.");
+        }
+
+        if (borrowedBooks.contains(book)) {
+            throw new IllegalArgumentException("Book is already borrowed by the user.");
+        }
+
+        bookDB.put(book, bookDB.get(book) - 1);
+        borrowedBooks.add(book);
+    }
+
+    public Map<Book, Integer> getBookDB() {
+        return Collections.unmodifiableMap(bookDB);
+    }
+
 }

@@ -37,7 +37,7 @@ public class TestLibrary {
     @Test
     public void testThat_AddBookMustThrowIllegalArgumentExceptionWhenUserIsNull() {
         Library library = new Library("PriyaLibrary");
-        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018); 
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
 
         assertThrows(IllegalArgumentException.class, () -> library.addBook(null, book));
     }
@@ -45,7 +45,7 @@ public class TestLibrary {
     @Test
     public void testThat_AddBookMustThrowIllegalArgumentExceptionWhenBookIsNull() {
         Library library = new Library("PriyaLibrary");
-        User user = new User("Priya", 1); 
+        User user = new User("Priya", 1);
 
         assertThrows(IllegalArgumentException.class, () -> library.addBook(user, null));
     }
@@ -56,6 +56,7 @@ public class TestLibrary {
 
         assertThrows(IllegalArgumentException.class, () -> library.addBook(null, null));
     }
+
     @Test
     public void testAddBookUniqueAndHandleDuplicates() {
         Library library = new Library("PriyaLibrary");
@@ -67,14 +68,13 @@ public class TestLibrary {
         assertTrue(library.getBooks().containsKey(book.getIsbn()));
 
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(user, book);
+            library.addBook(user, book); 
         });
-
         assertEquals("Book with this ISBN already exists.", thrown.getMessage());
-        assertEquals(1, library.getDuplicateBookCounter()); 
 
-        assertEquals(1, library.getBooks().size());
+        assertEquals(2, library.getBookDB().get(book));
     }
+
     @Test
     public void testAddNullBook() {
         Library library = new Library("PriyaLibrary");
@@ -135,13 +135,29 @@ public class TestLibrary {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
-        assertThrows(IllegalArgumentException.class, () -> {
+        library.addBook(user, book);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             library.addBook(user, book);
-            library.addBook(user, book); 
-        }, "Adding a duplicate book should throw an exception.");
+        });
+        assertEquals("Book with this ISBN already exists.", thrown.getMessage());
+
+        Book anotherBook = new Book("Clean Code", "Robert Martin", "9780132350884", 2003);
+        library.addBook(user, anotherBook);
+
         List<Book> books = library.showBooks();
-        assertEquals(1, books.size(), "Expected list to contain one unique book");
-        assertTrue(books.contains(book), "The list should contain the unique book");
+        assertEquals(2, books.size(), "Expected list to contain two unique books.");
+        assertTrue(books.contains(book), "The list should contain the first added book.");
+        assertTrue(books.contains(anotherBook), "The list should contain the second added book.");    }
+
+    @Test
+    public void testBorrowBookWhenBookIsNotPresent() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+
+        assertThrows(IllegalArgumentException.class, () -> library.borrowBook(book, user),
+                "Expected IllegalArgumentException when attempting to borrow a book that is not present.");
     }
 
 }
