@@ -1,69 +1,36 @@
-# Library Management System
+# Library Management System TDD Incubyte Kata Solution 📚
 
-## Overview
+## Project Overview
 
-This Library Management System allows users to perform basic operations related to managing a library's book collection. Users can add new books, borrow books, return books, and view available books. The system is designed to handle simple library operations and ensure that books are managed efficiently.
+The Library Management System is a Java-based application designed to manage books and users. This solution was developed using Test-Driven Development (TDD) practices to ensure robust validation and functionality of the core components: `Book` and `User`.
 
 ## Features
 
-- **Add Books**: Users can add new books to the library with details like title, author, ISBN, and publication year.
-- **Borrow Books**: Users can borrow books from the library, ensuring that the book is available and the user adheres to borrowing limits.
-- **Return Books**: Users can return borrowed books, updating the availability of the book in the library.
-- **View Available Books**: Users can view a list of all books currently available in the library.
+- **Book Management**:
+  - Title, author, ISBN, and publication year validation
+  - Title and author cannot start with numeric values
+  - ISBN must be exactly 13 digits and numeric
+  - Publication year must be a 4-digit numeric value
 
-## Requirements
+- **User Management**:
+  - User name must be alphabetic and longer than 3 characters
+  - User ID must be a positive integer
 
-- Java 17 or higher
+## Set Up Instructions
 
-## Getting Started
+### Prerequisites
 
-### Installation
+- **Java Development Kit (JDK)**: Ensure you have JDK 11 or higher installed.
+- **Maven**: Make sure Maven is installed for building and managing dependencies.
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/your-username/library-management-system.git
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd library-management-system
-    ```
-3. Compile the project using your preferred Java build tool (e.g., Maven, Gradle) or using `javac`:
-    ```sh
-    javac -d bin src/com/incubyte/*.java
-    ```
+### Tools
 
-### Running the Application
+- **VS Code**: Open the project in VS Code.
+- **Maven**: Open the `pom.xml` file when prompted and click "OK".
 
-1. Navigate to the `bin` directory:
-    ```sh
-    cd bin
-    ```
-2. Run the `Library` class to start the application:
-    ```sh
-    java com.incubyte.Library
-    ```
+### Build Project
 
-### Running Tests
-
-1. Navigate to the test directory:
-    ```sh
-    cd src/test
-    ```
-2. Compile the test classes:
-    ```sh
-    javac -d ../bin -cp .:../lib/junit-5.8.1.jar *.java
-    ```
-3. Run the tests using the JUnit platform:
-    ```sh
-    java -jar ../lib/junit-platform-console-standalone-1.8.1.jar -cp ../bin --scan-classpath
-    ```
-
-## Usage
-
-### Adding a Book
-
-```java
-Library library = new Library("City Library");
-User user = new User("Alice", 1);
-Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 1925);
-library.addBook(user, book);
+1. Open VS Code and navigate to the project directory.
+2. Run the following Maven command to build the project:
+   ```bash
+   mvn clean install
