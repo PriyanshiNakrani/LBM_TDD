@@ -135,8 +135,10 @@ public class TestLibrary {
         Library library = new Library("PriyaLibrary");
         User user = new User("Priya", 1);
         Book book = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
-        library.addBook(user, book);
-        library.addBook(user, book);
+        assertThrows(IllegalArgumentException.class, () -> {
+            library.addBook(user, book);
+            library.addBook(user, book); 
+        }, "Adding a duplicate book should throw an exception.");
         List<Book> books = library.showBooks();
         assertEquals(1, books.size(), "Expected list to contain one unique book");
         assertTrue(books.contains(book), "The list should contain the unique book");
