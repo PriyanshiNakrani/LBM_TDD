@@ -190,7 +190,6 @@ public class TestLibrary {
 
         library.borrowBook(book1, user);
         library.borrowBook(book2, user);
-        library.borrowBook(book3, user);
 
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 () -> library.borrowBook(book3, user),
