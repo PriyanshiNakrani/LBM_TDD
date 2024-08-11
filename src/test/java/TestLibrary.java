@@ -174,4 +174,28 @@ public class TestLibrary {
         library.borrowBook(book, user);
 
     }
+
+    @Test
+    public void testBorrowBookWhenUserExceedsBorrowLimit() {
+        Library library = new Library("PriyaLibrary");
+        User user = new User("Priya", 1);
+        Book book1 = new Book("Effective Java", "Joshua Bloch", "9780134685991", 2018);
+        Book book2 = new Book("Clean Code", "Robert Martin", "9780132350884", 2003);
+        Book book3 = new Book("Design Patterns", "Gang of Four", "9780201633610", 1994);
+
+        library.registerUser(user);
+        library.addBook(user, book1);
+        library.addBook(user, book2);
+        library.addBook(user, book3);
+
+        library.borrowBook(book1, user);
+        library.borrowBook(book2, user);
+        library.borrowBook(book3, user);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> library.borrowBook(book3, user),
+                "Expected IllegalArgumentException when attempting to borrow more than 2 books.");
+
+        assertEquals("User can only borrow up to 2 books.", thrown.getMessage());
+    }
 }

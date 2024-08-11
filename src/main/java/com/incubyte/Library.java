@@ -84,6 +84,9 @@ public class Library {
             throw new IllegalArgumentException("Book and user cannot be null.");
         }
 
+        if (!registeredUsers.contains(user)) {
+            throw new IllegalArgumentException("User is not registered.");
+        }
         if (!bookDB.containsKey(book) || bookDB.get(book) == 0) {
             throw new IllegalArgumentException("Book is not available.");
         }
